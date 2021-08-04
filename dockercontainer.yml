@@ -1,0 +1,21 @@
+---
+- name: This playbook is to create some dummy containers
+  hosts: "ansibleworker"
+
+  tasks:
+    - name: Pulling httpd image from Docker hub
+      command: "docker image pull yogeshraheja/sntest:v1"
+      register: imageoutput
+
+    - name: Displaying image download output
+      debug: var=imageoutput
+
+    - name: Creating httpd container
+      command: "docker container run -itd --name=jenkinscon -p 82:80 yogeshraheja/sntest:v1"
+
+    - name: Listing all of the containers
+      command: "docker container ls -a"
+      register: dockeroutput
+
+    - name: Displaying the out of docker container
+      debug: var=dockeroutput
